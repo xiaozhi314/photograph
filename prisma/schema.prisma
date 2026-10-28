@@ -10,7 +10,7 @@ generator json {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://REDACTED@REDACTED_DB_ADDRESS/proj_47bdb6f4_snap_20261028_034022_157"
+  url      = "mysql://REDACTED@REDACTED_DB_ADDRESS/proj_47bdb6f4_snap_20261028_065655_049"
 }
 
 enum AccountRole {
