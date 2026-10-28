@@ -1,99 +1,107 @@
 /** 与 aigcode-demo/src/index.css 一致：挂载 tailwind.config / 源码扫描路径，否则部分工具类与中断点在产物里间歇性缺失、「样式不对」 */
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap");
 @config "../tailwind.config.ts";
 @import "tailwindcss";
+
 @source "../src/**/*.{js,ts,jsx,tsx}";
 @source "./**/*.{js,ts,jsx,tsx}";
 @source "../components/**/*.{js,ts,jsx,tsx}";
 
 /* ─── Design Token Slots ─────────────────────────────────────────────────────
-   These are architectural slots. applyProjectDesignTokens fills in the values.
-   @theme tokens automatically generate Tailwind utility classes:
-     --color-primary  → bg-primary, text-primary, border-primary
-     --font-display   → font-display
-     --shadow-soft    → shadow-soft
-     --animate-float  → animate-float
-   ──────────────────────────────────────────────────────────────────────────── */
+   Lumen Portraits Warm Editorial Palette.
+   Every surface-foreground pair satisfies lightness disparity >= 500.
+   ──────────────────────────────────────────────────────────────────── */
 @theme {
   /* ── Color Slots (required) ── */
-    --color-background: #ffffff;
-    --color-foreground: #111111;
-    --color-primary: #2563eb;
-    --color-primary-foreground: #ffffff;
-    --color-secondary: #64748b;
-    --color-secondary-foreground: #ffffff;
-    --color-accent: #f59e0b;
-    --color-accent-foreground: #ffffff;
-    --color-muted: #f1f5f9;
-    --color-muted-foreground: #64748b;
-    --color-destructive: #ef4444;
-    --color-destructive-foreground: #ffffff;
-    --color-card: #ffffff;
-    --color-card-foreground: #111111;
-    --color-popover: #ffffff;
-    --color-popover-foreground: #111111;
-    --color-border: #e2e8f0;
-    --color-input: #e2e8f0;
-    --color-ring: #2563eb;
+  --color-background: #faf8f5; /* 档位 50 浅 · L=0.95 */
+  --color-foreground: #141312; /* 档位 950 深 · L=0.01 — 档位差 900，PASS */
+  --color-card: #f5f2eb; /* 档位 100 浅 · L=0.91 */
+  --color-card-foreground: #141312; /* 档位 950 深 · L=0.01 — 档位差 850，PASS */
+  --color-popover: #f5f2eb; /* 档位 100 浅 · L=0.91 */
+  --color-popover-foreground: #141312; /* 档位 950 深 · L=0.01 — 档位差 850，PASS */
+  --color-muted: #eee9df; /* 档位 150 浅 · L=0.83 */
+  --color-muted-foreground: #5c554e; /* 档位 750 深 · L=0.10 — 档位差 600，PASS */
+  --color-secondary: #e5ded2; /* 档位 200 浅 · L=0.76 */
+  --color-secondary-foreground: #1b1917; /* 档位 950 深 · L=0.02 — 档位差 750，PASS */
+  --color-primary: #8c5828; /* 档位 700 深度青铜金 · L=0.14 */
+  --color-primary-foreground: #ffffff; /* 档位 50 纯白 · L=1.00 — 档位差 650，PASS */
+  --color-accent: #543820; /* 档位 850 深大地色 · L=0.06 */
+  --color-accent-foreground: #ffffff; /* 档位 50 纯白 · L=1.00 — 档位差 800，PASS */
+  --color-destructive: #b91c1c; /* 档位 750 绯红 · L=0.11 */
+  --color-destructive-foreground: #ffffff; /* 档位 50 纯白 · L=1.00 — PASS */
+  --color-success: #1e5631; /* 档位 800 墨绿 · L=0.08 */
+  --color-success-foreground: #ffffff; /* 档位 50 纯白 · L=1.00 — PASS */
+  --color-warning: #9a5214; /* 档位 750 琥珀赭石 · L=0.13 */
+  --color-warning-foreground: #ffffff; /* 档位 50 纯白 · L=1.00 — PASS */
+  --color-info: #23496d; /* 档位 800 板岩蓝 · L=0.08 */
+  --color-info-foreground: #ffffff; /* 档位 50 纯白 · L=1.00 — PASS */
+  --color-border: #e5dfd5;
+  --color-input: #e5dfd5;
+  --color-ring: #8c5828;
 
-  /* ── Backend Sidebar slots（占位示例；按 design 可浅可深，须和谐且对比达标）──
-       --color-sidebar → bg-sidebar；--color-sidebar-background 与其同值（重线交接对齐） */
-    --color-sidebar: #f8fafc;
-    --color-sidebar-background: #f8fafc;
-    --color-sidebar-foreground: #0f172a;
-    --color-sidebar-primary: #2563eb;
-    --color-sidebar-primary-foreground: #ffffff;
-    --color-sidebar-accent: #e2e8f0;
-    --color-sidebar-accent-foreground: #0f172a;
-    --color-sidebar-border: #e2e8f0;
-    --color-sidebar-ring: #2563eb;
+  /* ── Backend Sidebar slots ── */
+  --color-sidebar: #f4f0e8; /* 档位 100 浅 · L=0.89 */
+  --color-sidebar-background: #f4f0e8; /* 档位 100 浅 · L=0.89 */
+  --color-sidebar-foreground: #141312; /* 档位 950 深 · L=0.01 — PASS */
+  --color-sidebar-primary: #8c5828; /* 档位 700 深度青铜金 · L=0.14 */
+  --color-sidebar-primary-foreground: #ffffff; /* 档位 50 纯白 · L=1.00 — PASS */
+  --color-sidebar-accent: #e5ded2; /* 档位 200 浅 · L=0.76 */
+  --color-sidebar-accent-foreground: #141312; /* 档位 950 深 · L=0.01 — PASS */
+  --color-sidebar-border: #e5dfd5;
+  --color-sidebar-ring: #8c5828;
 
-  /* ── Font Slots (required — 4 semantic roles) ── */
-    --font-display: "Inter", sans-serif;
-    --font-header: "Inter", sans-serif;
-    --font-body: "Inter", sans-serif;
-    --font-label: "Inter", sans-serif;
+  /* ── Font Slots (strictly 3 semantic roles) ── */
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-header: "Cormorant Garamond", Georgia, serif;
+  --font-body: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
 
-  /* ── Shadow Slots (optional — applyProjectDesignTokens may add more) ── */
-    --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.05);
+  /* ── Shadow Slots ── */
+  --shadow-soft: 0 4px 20px -2px rgba(20, 19, 18, 0.04);
+  --shadow-gallery: 0 12px 36px -4px rgba(20, 19, 18, 0.07);
 
   /* ── Radius ── */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-    --radius-lg: 16px;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
 }
 
 @layer base {
   :root {
-    /* shadcn/ui compatibility variables */
-      --background: #ffffff;
-      --foreground: #111111;
-      --card: #ffffff;
-      --card-foreground: #111111;
-      --popover: #ffffff;
-      --popover-foreground: #111111;
-      --primary: #2563eb;
-      --primary-foreground: #ffffff;
-      --secondary: #64748b;
-      --secondary-foreground: #ffffff;
-      --muted: #f1f5f9;
-      --muted-foreground: #64748b;
-      --accent: #f59e0b;
-      --accent-foreground: #ffffff;
-      --destructive: #ef4444;
-      --destructive-foreground: #ffffff;
-      --border: #e2e8f0;
-      --input: #e2e8f0;
-      --ring: #2563eb;
-      --sidebar: #f8fafc;
-      --sidebar-background: #f8fafc;
-      --sidebar-foreground: #0f172a;
-      --sidebar-primary: #2563eb;
-      --sidebar-primary-foreground: #ffffff;
-      --sidebar-accent: #e2e8f0;
-      --sidebar-accent-foreground: #0f172a;
-      --sidebar-border: #e2e8f0;
-      --sidebar-ring: #2563eb;
-      --radius: 8px;
+    --background: #faf8f5;
+    --foreground: #141312;
+    --card: #f5f2eb;
+    --card-foreground: #141312;
+    --popover: #f5f2eb;
+    --popover-foreground: #141312;
+    --primary: #8c5828;
+    --primary-foreground: #ffffff;
+    --secondary: #e5ded2;
+    --secondary-foreground: #1b1917;
+    --muted: #eee9df;
+    --muted-foreground: #5c554e;
+    --accent: #543820;
+    --accent-foreground: #ffffff;
+    --destructive: #b91c1c;
+    --destructive-foreground: #ffffff;
+    --success: #1e5631;
+    --success-foreground: #ffffff;
+    --warning: #9a5214;
+    --warning-foreground: #ffffff;
+    --info: #23496d;
+    --info-foreground: #ffffff;
+    --border: #e5dfd5;
+    --input: #e5dfd5;
+    --ring: #8c5828;
+    --sidebar: #f4f0e8;
+    --sidebar-background: #f4f0e8;
+    --sidebar-foreground: #141312;
+    --sidebar-primary: #8c5828;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #e5ded2;
+    --sidebar-accent-foreground: #141312;
+    --sidebar-border: #e5dfd5;
+    --sidebar-ring: #8c5828;
+    --radius: 4px;
   }
 
   html, body {
@@ -101,6 +109,7 @@
     color: theme(--color-foreground);
     font-family: theme(--font-body);
     -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.01em;
   }
 
   * {
@@ -116,5 +125,4 @@
       transition-delay: 0s !important;
     }
   }
-    
 }
