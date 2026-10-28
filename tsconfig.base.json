@@ -1,0 +1,37 @@
+//这份文件要放到generated目录下，让他忽略pnpm workspace的pnpm_node_modules
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true
+  },
+
+  // --- 这是解决问题的核心 ---
+  // 从这个文件的位置（/root/code/generated/）出发，
+  // 彻底忽略同级的 pnpm_node_modules 目录
+  "watchOptions": {
+    "excludeDirectories": [
+      "pnpm_node_modules",
+      "pnpm_node_modules/sub1",
+      "pnpm_node_modules/sub2",
+      "pnpm_node_modules/sub3",
+      "pnpm_node_modules/sub4",
+      "pnpm_node_modules/sub5",
+      "pnpm_node_modules/sub6",
+      "pnpm_node_modules/sub7",
+      "pnpm_node_modules/sub8",
+      "pnpm_node_modules/sub9",
+      "pnpm_node_modules/sub10"
+    ]
+  },
+  
+  // 作为双重保险，也在这里排除
+  "exclude": [
+    "pnpm_node_modules"
+  ],
+
+  // 这个字段是空的，因为这个文件本身不编译任何代码
+  "include": []
+}

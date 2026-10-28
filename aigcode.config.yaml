@@ -1,0 +1,7 @@
+# 用来区分不同的初始模板
+
+# 静态检查工具，默认tsc
+check_tool: eslint
+
+# 已经安装了eslint-import-resolver-alias包
+has_install_eslint_alias: true

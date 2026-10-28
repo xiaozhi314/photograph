@@ -1,0 +1,119 @@
+{
+  "timestamp": "2025-08-19T09:07:57.339Z",
+  "rsbuild": {
+    "success": true,
+    "duration": 1395,
+    "totalSize": 921620,
+    "fileCount": 17,
+    "files": [
+      {
+        "name": "assets/vendor-HXJi-K0H.js",
+        "size": 501061,
+        "formattedSize": "489.32 KB"
+      },
+      {
+        "name": "freecdn-internal/0.4.1/br/br.wasm",
+        "size": 182562,
+        "formattedSize": "178.28 KB"
+      },
+      {
+        "name": "assets/vendor-HXJi-K0H.js.gz",
+        "size": 124329,
+        "formattedSize": "121.42 KB"
+      },
+      {
+        "name": "freecdn-internal/0.4.1/freecdn-main.min.js",
+        "size": 43940,
+        "formattedSize": "42.91 KB"
+      },
+      {
+        "name": "assets/index-CKZZDepg.js",
+        "size": 17702,
+        "formattedSize": "17.29 KB"
+      },
+      {
+        "name": "freecdn-internal/0.4.1/freecdn-main.min.js.gz",
+        "size": 14841,
+        "formattedSize": "14.49 KB"
+      },
+      {
+        "name": "freecdn-internal/0.4.1/br/br.min.js",
+        "size": 6876,
+        "formattedSize": "6.71 KB"
+      },
+      {
+        "name": "freecdn-manifest.txt",
+        "size": 6140,
+        "formattedSize": "6 KB"
+      },
+      {
+        "name": "index.html",
+        "size": 5445,
+        "formattedSize": "5.32 KB"
+      },
+      {
+        "name": "assets/index-BcfiZsBs.css",
+        "size": 4265,
+        "formattedSize": "4.17 KB"
+      }
+    ]
+  },
+  "vite": {
+    "success": true,
+    "duration": 2592,
+    "totalSize": 921620,
+    "fileCount": 17,
+    "files": [
+      {
+        "name": "assets/vendor-HXJi-K0H.js",
+        "size": 501061,
+        "formattedSize": "489.32 KB"
+      },
+      {
+        "name": "freecdn-internal/0.4.1/br/br.wasm",
+        "size": 182562,
+        "formattedSize": "178.28 KB"
+      },
+      {
+        "name": "assets/vendor-HXJi-K0H.js.gz",
+        "size": 124329,
+        "formattedSize": "121.42 KB"
+      },
+      {
+        "name": "freecdn-internal/0.4.1/freecdn-main.min.js",
+        "size": 43940,
+        "formattedSize": "42.91 KB"
+      },
+      {
+        "name": "assets/index-CKZZDepg.js",
+        "size": 17702,
+        "formattedSize": "17.29 KB"
+      },
+      {
+        "name": "freecdn-internal/0.4.1/freecdn-main.min.js.gz",
+        "size": 14841,
+        "formattedSize": "14.49 KB"
+      },
+      {
+        "name": "freecdn-internal/0.4.1/br/br.min.js",
+        "size": 6876,
+        "formattedSize": "6.71 KB"
+      },
+      {
+        "name": "freecdn-manifest.txt",
+        "size": 6140,
+        "formattedSize": "6 KB"
+      },
+      {
+        "name": "index.html",
+        "size": 5445,
+        "formattedSize": "5.32 KB"
+      },
+      {
+        "name": "assets/index-BcfiZsBs.css",
+        "size": 4265,
+        "formattedSize": "4.17 KB"
+      }
+    ]
+  }
+}

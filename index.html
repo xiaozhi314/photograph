@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="h-full" theme="light">
+  <head>
+    <!-- loading样式 - 优先加载，避免渲染阻塞 -->
+    <style>
+      body, html {
+        padding: 0;
+        margin: 0;
+      }
+      #global-loading {
+        display: none !important;
+      }
+      html[data-in-iframe="true"] #global-loading {
+        display: none !important;
+      }
+      /* iframe内loading样式 - 参考UrlChangeLoading.tsx */
+      #global-loading.iframe-mode {
+        flex-flow: column;
+        border-radius: 12px;
+      }
+      .iframe-loading-container {
+        position: relative;
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        transform: translateY(-50%);
+        overflow: hidden;
+      }
+      .iframe-loading-text {
+        position: relative;
+        font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        margin-top: -25px;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 100%;
+        color: #000;
+        opacity: 0.3;
+        text-align: center;
+        white-space: nowrap;
+      }
+      .iframe-loading-text::after {
+        content: '';
+        animation: dot-blink 2s linear infinite;
+        position: absolute;
+        top: 0;
+        left: 100%;
+      }
+      @keyframes dot-blink {
+        0% { content: '.'; }
+        50% { content: '..'; }
+        100% { content: '...'; }
+      }
+      /* 非iframe下的原始loading样式（已停用） */
+      .default-loading-container {
+        display: none;
+      }
+    </style>
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+    <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"> -->
+    <link rel="prefetch" as="script" href="/background/domsdk.umd.min.js" id="prefetch-domsdk" />
+    <link rel="prefetch" as="script" href="/background/edisdk.umd.min.js" id="prefetch-edisdk" />
+    <link rel="preconnect" href="https://unpkg.com" />
+    <link rel="dns-prefetch" href="https://unpkg.com" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate" />
+    <link rel="preconnect" href="https://unpkg.com" />
+    <link rel="dns-prefetch" href="https://unpkg.com" />
+    <meta name="AIGC-Label" content="1" />
+    <meta name="Label" content="1" />
+    <meta name="AIGC-ContentProducer" content="AutoCoder.cc AIGCode的AI大模型生成" />
+    <meta name="ContentProducer" content="AutoCoder.cc AIGCode的AI大模型生成" />
+    <meta name="AIGC-ProduceID" content="<%= PROJECT_ID %>" />
+    <meta name="ProduceID" content="<%= PROJECT_ID %>" />
+    <meta name="AIGC-ReservedCode1" content="<%= SIGNATURE %>" />
+    <meta name="ReservedCode1" content="<%= SIGNATURE %>" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title><%= PROJECT_NAME %></title>
+    <script>
+      (function() {
+        if (typeof window === 'undefined') {
+          return;
+        }
+
+        try {
+          if (window.self !== window.top) {
+            document.documentElement.setAttribute('data-in-iframe', 'true');
+          }
+        } catch (e) {
+          document.documentElement.setAttribute('data-in-iframe', 'true');
+        }
+      })();
+    </script>
+    <script>
+      window.__dynamic_base__ = '/__dynamic_base__';
+    </script>
+    <script src="/__dynamic_base__/api-data-marker-runtime-v3.js"></script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon-apple-touch-icon.png" />
+  </head>
+  <body class="antialiased">
+    <script>
+      window.__location__ = {
+        href: window.location.href,
+        pathname: window.location.pathname,
+        search: window.location.search,
+        hash: window.location.hash,
+        origin: window.location.origin,
+        protocol: window.location.protocol,
+        host: window.location.host,
+      }
+    </script>
+    <div id="root">
+      <div id="global-loading"></div>
+    </div>
+    <script>
+      (function() {
+        // SSR兼容：检查window对象是否存在
+        if (typeof window === 'undefined') {
+          return;
+        }
+        
+        var isInIframe = false;
+        try {
+          isInIframe = window.self !== window.top;
+        } catch (e) {
+          // 跨域情况下无法访问window.top，说明在iframe中
+          isInIframe = true;
+        }
+        
+        var globalLoading = document.getElementById('global-loading');
+        if (!globalLoading) {
+          return;
+        }
+        
+        if (isInIframe) {
+          document.documentElement.setAttribute('data-in-iframe', 'true');
+          globalLoading.classList.remove('iframe-mode');
+          globalLoading.innerHTML = '';
+          globalLoading.style.display = 'none';
+          return;
+        }
+        globalLoading.innerHTML = '';
+        globalLoading.style.display = 'none';
+      })();
+    </script>
+    <div id="aigcode_badge" style="
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: none;
+    ">
+      <a target="_blank" href="" style="
+        display: block;
+        background: transparent;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        text-decoration: none;
+        color: #333;
+        position: relative;
+      "><img style="width: 229px; height: auto; min-height: 30px" src="{{DOMAIN}}/img/autopilot/aigcode_badge.png" alt="" /><button id="aigcode_badge-close" style="
+          position: absolute;
+          top: -2px;
+          right: 5px;
+          cursor: pointer;
+          font-size: 14px;
+          color: #a1a1aa;
+          background: none;
+          border: none;
+          padding: 0;
+        ">
+          ×
+        </button>
+      </a>
+    </div>
+    <script src="https://unpkg.com/lodash@4.17.21/lodash.min.js"></script>
+    <script src="https://unpkg.com/dayjs@1/dayjs.min.js"></script>
+    <script src="https://unpkg.com/dayjs@1/plugin/utc.js"></script>
+    <script>
+      dayjs.extend(dayjs_plugin_utc)
+    </script>
+    <script src="/background/edisdk.umd.min.js"></script>
+    <script src="/background/domsdk.umd.min.js"></script>
+    <script src="/__dynamic_base__/auto-login.js"></script>
+    <script>
+      (function() {
+        // var fontUrl = 'https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;700&family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&family=Merriweather:wght@400;700&display=swap';
+        // var link = document.createElement('link');
+        // link.rel = 'stylesheet';
+        // link.href = fontUrl;
+        // document.head.appendChild(link);
+      })();
+    </script>
+  </body>
+</html>

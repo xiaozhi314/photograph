@@ -1,0 +1,240 @@
+generator client {
+  provider = "prisma-client-js"
+  output = "../prisma-generated/client"
+}
+
+generator json {
+  provider = "prisma-json-types-generator"
+  allowAny = false
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://REDACTED@REDACTED_DB_ADDRESS/proj_47bdb6f4_snap_20261028_034022_157"
+}
+
+enum AccountRole {
+  CLIENT
+  CURATOR_ADMIN
+}
+
+enum AspectOrientation {
+  PORTRAIT
+  LANDSCAPE
+}
+
+enum ServiceType {
+  ARCHITECTURAL_MONOGRAPH
+  EDITORIAL_PORTRAITURE
+  COMMERCIAL_CAMPAIGN
+  PRINT_ACQUISITION
+}
+
+enum ProjectType {
+  EDITORIAL
+  PORTRAIT
+  COMMERCIAL
+  ACQUISITION
+}
+
+enum InquiryStatus {
+  NEW
+  IN_REVIEW
+  REPLIED
+}
+
+enum ExhibitionType {
+  SOLO_EXHIBITION
+  INSTITUTIONAL
+  BIENNIAL
+  MONOGRAPH
+}
+
+model AccountUser {
+  id                   String               @id @default(uuid()) @db.VarChar(72)
+  username             String               @unique @db.VarChar(120)
+  email                String               @unique @db.VarChar(255)
+  passwordHash         String               @db.VarChar(255)
+  fullName             String               @db.VarChar(180)
+  role                 AccountRole          @default(CLIENT)
+  avatarUrl            String?              @db.VarChar(700)
+  phone                String?              @db.VarChar(60)
+  organization         String?              @db.VarChar(200)
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
+
+  clientInquiries      CommissionInquiry[]  @relation("ClientInquiries")
+  curatorReplies       CommissionInquiry[]  @relation("CuratorReplies")
+  testimonials         ClientTestimonial[]
+
+  @@map("account_user")
+}
+
+model PhotoCategory {
+  id          String            @id @default(uuid()) @db.VarChar(72)
+  slug        String            @unique @db.VarChar(100)
+  name        String            @db.VarChar(150)
+  description String?           @db.Text
+  sortOrder   Int               @default(0)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  works       PhotographyWork[]
+
+  @@index([sortOrder])
+  @@map("photo_category")
+}
+
+model PhotoCollection {
+  id               String            @id @default(uuid()) @db.VarChar(72)
+  title            String            @db.VarChar(200)
+  rollNumber       String            @db.VarChar(80)
+  medium           String            @db.VarChar(200)
+  curatorNote      String            @db.Text
+  aspect           AspectOrientation @default(PORTRAIT)
+  aspectRatioClass String            @default("aspect-[4/5]") @db.VarChar(50)
+  coverImage       String?           @db.VarChar(700)
+  imageCount       Int               @default(0)
+  isVisible        Boolean           @default(true)
+  featuredOnHome   Boolean           @default(false)
+  sortOrder        Int               @default(0)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  works            PhotographyWork[]
+
+  @@index([isVisible, sortOrder])
+  @@index([featuredOnHome])
+  @@map("photo_collection")
+}
+
+model ServicePackage {
+  id               String              @id @default(uuid()) @db.VarChar(72)
+  title            String              @db.VarChar(200)
+  serviceType      ServiceType
+  basePrice        Decimal             @db.Decimal(10, 2)
+  priceDisplay     String              @db.VarChar(100)
+  durationEstimate String              @db.VarChar(120)
+  /// Scope deliverables included in this service package tier
+  /// ![Array<string>]
+  deliverables     Json
+  isActive         Boolean             @default(true)
+  sortOrder        Int                 @default(0)
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+
+  inquiries        CommissionInquiry[]
+
+  @@index([isActive, sortOrder])
+  @@map("service_package")
+}
+
+model PhotographyWork {
+  id           String            @id @default(uuid()) @db.VarChar(72)
+  title        String            @db.VarChar(220)
+  categoryId   String            @db.VarChar(72) // FK → PhotoCategory.id
+  category     PhotoCategory     @relation(fields: [categoryId], references: [id])
+  collectionId String?           @db.VarChar(72) // FK → PhotoCollection.id
+  collection   PhotoCollection?  @relation(fields: [collectionId], references: [id], onDelete: SetNull)
+  seriesName   String            @db.VarChar(200)
+  location     String            @db.VarChar(200)
+  year         Int
+  medium       String            @db.VarChar(220)
+  edition      String            @db.VarChar(180)
+  aspectRatio  AspectOrientation @default(PORTRAIT)
+  statement    String            @db.Text
+  imageUrl     String            @db.VarChar(700)
+  isFeatured   Boolean           @default(false)
+  isArchived   Boolean           @default(false)
+  sortOrder    Int               @default(0)
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  @@index([categoryId])
+  @@index([collectionId])
+  @@index([isArchived, isFeatured, sortOrder])
+  @@map("photography_work")
+}
+
+model CommissionInquiry {
+  id               String          @id @default(uuid()) @db.VarChar(72)
+  clientId         String          @db.VarChar(72) // FK → AccountUser.id
+  client           AccountUser     @relation("ClientInquiries", fields: [clientId], references: [id])
+  servicePackageId String?         @db.VarChar(72) // FK → ServicePackage.id
+  servicePackage   ServicePackage? @relation(fields: [servicePackageId], references: [id], onDelete: SetNull)
+  clientName       String          @db.VarChar(180)
+  clientEmail      String          @db.VarChar(255)
+  organization     String?         @db.VarChar(200)
+  projectType      ProjectType
+  budgetTier       String          @db.VarChar(120)
+  projectBrief     String          @db.Text
+  clientMessage    String?         @db.Text
+  targetTimeline   String          @db.VarChar(150)
+  location         String?         @db.VarChar(200)
+  status           InquiryStatus   @default(NEW)
+  curatorReply     String?         @db.Text
+  repliedAt        String?         @db.VarChar(80)
+  repliedById      String?         @db.VarChar(72) // FK → AccountUser.id
+  repliedBy        AccountUser?    @relation("CuratorReplies", fields: [repliedById], references: [id], onDelete: SetNull)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  @@index([clientId])
+  @@index([servicePackageId])
+  @@index([repliedById])
+  @@index([status, createdAt])
+  @@map("commission_inquiry")
+}
+
+model ExhibitionRecord {
+  id             String         @id @default(uuid()) @db.VarChar(72)
+  title          String         @db.VarChar(240)
+  institution    String         @db.VarChar(220)
+  city           String         @db.VarChar(150)
+  year           Int
+  exhibitionType ExhibitionType
+  pressMention   String         @db.Text
+  externalUrl    String?        @db.VarChar(700)
+  sortOrder      Int            @default(0)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@index([year, sortOrder])
+  @@map("exhibition_record")
+}
+
+model ClientTestimonial {
+  id          String      @id @default(uuid()) @db.VarChar(72)
+  clientId    String?     @db.VarChar(72) // FK → AccountUser.id
+  client      AccountUser? @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  clientName  String      @db.VarChar(180)
+  clientTitle String      @db.VarChar(180)
+  organization String     @db.VarChar(200)
+  quote       String      @db.Text
+  serviceType ProjectType
+  rating      Int         @default(5)
+  avatarImage String?     @db.VarChar(700)
+  isFeatured  Boolean     @default(false)
+  sortOrder   Int         @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([clientId])
+  @@index([isFeatured, sortOrder])
+  @@map("client_testimonial")
+}
+
+model StudioBio {
+  id                   String   @id @default(uuid()) @db.VarChar(72)
+  artistName           String   @db.VarChar(180)
+  studioName           String   @db.VarChar(180)
+  philosophyQuote      String   @db.Text
+  bioStatement         String   @db.Text
+  portraitImage        String?  @db.VarChar(700)
+  atelierLocation      String   @db.VarChar(180)
+  activeRepresentation String   @db.VarChar(255)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@map("studio_bio")
+}

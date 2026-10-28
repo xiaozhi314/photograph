@@ -1,0 +1,28 @@
+{
+  "asset_hash": "87585e3e2fada8432c64400130eeb8996b050f9eb02d0495ffe4d18eae8f84f0",
+  "asset_url": "{{DOMAIN}}/background/zaki_prod/brand-icons/87585e3e2fada8432c64400130eeb8996b050f9eb02d0495ffe4d18eae8f84f0.png",
+  "origin": {
+    "kind": "light_inherited",
+    "source_project_id": "PROJ_7f482cc8",
+    "snapshot_id": "snap_20261028_032736_684",
+    "source_asset_hash": "87585e3e2fada8432c64400130eeb8996b050f9eb02d0495ffe4d18eae8f84f0"
+  },
+  "refs": {
+    "page_and_layout": "src/lib/generated-images/project-logo.ts",
+    "import_path": "@/lib/generated-images/project-logo",
+    "favicon": "public/favicon.svg"
+  },
+  "written_files": [
+    "public/brand/icon.png",
+    "public/favicon.svg",
+    "public/favicon-16x16.png",
+    "public/favicon-32x32.png",
+    "public/favicon.ico",
+    "public/apple-touch-icon.png",
+    "public/favicon-apple-touch-icon.png",
+    "src/lib/generated-images/project-logo.ts",
+    "app/favicon.ico",
+    "index.html",
+    "brand-assets.json"
+  ]
+}
