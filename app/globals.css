@@ -1,0 +1,120 @@
+/** 与 aigcode-demo/src/index.css 一致：挂载 tailwind.config / 源码扫描路径，否则部分工具类与中断点在产物里间歇性缺失、「样式不对」 */
+@config "../tailwind.config.ts";
+@import "tailwindcss";
+@source "../src/**/*.{js,ts,jsx,tsx}";
+@source "./**/*.{js,ts,jsx,tsx}";
+@source "../components/**/*.{js,ts,jsx,tsx}";
+
+/* ─── Design Token Slots ─────────────────────────────────────────────────────
+   These are architectural slots. applyProjectDesignTokens fills in the values.
+   @theme tokens automatically generate Tailwind utility classes:
+     --color-primary  → bg-primary, text-primary, border-primary
+     --font-display   → font-display
+     --shadow-soft    → shadow-soft
+     --animate-float  → animate-float
+   ──────────────────────────────────────────────────────────────────────────── */
+@theme {
+  /* ── Color Slots (required) ── */
+    --color-background: #ffffff;
+    --color-foreground: #111111;
+    --color-primary: #2563eb;
+    --color-primary-foreground: #ffffff;
+    --color-secondary: #64748b;
+    --color-secondary-foreground: #ffffff;
+    --color-accent: #f59e0b;
+    --color-accent-foreground: #ffffff;
+    --color-muted: #f1f5f9;
+    --color-muted-foreground: #64748b;
+    --color-destructive: #ef4444;
+    --color-destructive-foreground: #ffffff;
+    --color-card: #ffffff;
+    --color-card-foreground: #111111;
+    --color-popover: #ffffff;
+    --color-popover-foreground: #111111;
+    --color-border: #e2e8f0;
+    --color-input: #e2e8f0;
+    --color-ring: #2563eb;
+
+  /* ── Backend Sidebar slots（占位示例；按 design 可浅可深，须和谐且对比达标）──
+       --color-sidebar → bg-sidebar；--color-sidebar-background 与其同值（重线交接对齐） */
+    --color-sidebar: #f8fafc;
+    --color-sidebar-background: #f8fafc;
+    --color-sidebar-foreground: #0f172a;
+    --color-sidebar-primary: #2563eb;
+    --color-sidebar-primary-foreground: #ffffff;
+    --color-sidebar-accent: #e2e8f0;
+    --color-sidebar-accent-foreground: #0f172a;
+    --color-sidebar-border: #e2e8f0;
+    --color-sidebar-ring: #2563eb;
+
+  /* ── Font Slots (required — 4 semantic roles) ── */
+    --font-display: "Inter", sans-serif;
+    --font-header: "Inter", sans-serif;
+    --font-body: "Inter", sans-serif;
+    --font-label: "Inter", sans-serif;
+
+  /* ── Shadow Slots (optional — applyProjectDesignTokens may add more) ── */
+    --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+  /* ── Radius ── */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+    --radius-lg: 16px;
+}
+
+@layer base {
+  :root {
+    /* shadcn/ui compatibility variables */
+      --background: #ffffff;
+      --foreground: #111111;
+      --card: #ffffff;
+      --card-foreground: #111111;
+      --popover: #ffffff;
+      --popover-foreground: #111111;
+      --primary: #2563eb;
+      --primary-foreground: #ffffff;
+      --secondary: #64748b;
+      --secondary-foreground: #ffffff;
+      --muted: #f1f5f9;
+      --muted-foreground: #64748b;
+      --accent: #f59e0b;
+      --accent-foreground: #ffffff;
+      --destructive: #ef4444;
+      --destructive-foreground: #ffffff;
+      --border: #e2e8f0;
+      --input: #e2e8f0;
+      --ring: #2563eb;
+      --sidebar: #f8fafc;
+      --sidebar-background: #f8fafc;
+      --sidebar-foreground: #0f172a;
+      --sidebar-primary: #2563eb;
+      --sidebar-primary-foreground: #ffffff;
+      --sidebar-accent: #e2e8f0;
+      --sidebar-accent-foreground: #0f172a;
+      --sidebar-border: #e2e8f0;
+      --sidebar-ring: #2563eb;
+      --radius: 8px;
+  }
+
+  html, body {
+    background-color: theme(--color-background);
+    color: theme(--color-foreground);
+    font-family: theme(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  * {
+    border-color: theme(--color-border);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+      animation-delay: -1ms !important;
+      animation-duration: 1ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0s !important;
+      transition-delay: 0s !important;
+    }
+  }
+    
+}

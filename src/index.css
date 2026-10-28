@@ -1,0 +1,23 @@
+/**
+ * Rsbuild 入口样式：转发到 Next.js app 全局样式（项目在仓库根目录 app/globals.css）。
+ */
+@import '../app/globals.css';
+
+/* 页面级默认：全局隐藏滚动条（仍可照常滚动）；与 aigcode index 行为对齐 */
+@layer base {
+  * {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE / 旧 Edge */
+  }
+
+  *::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  *::-webkit-scrollbar-track,
+  *::-webkit-scrollbar-thumb {
+    display: none;
+  }
+}

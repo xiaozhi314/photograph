@@ -1,0 +1,72 @@
+/**
+ * Motion Safety Net + 安全动画词汇表（引擎静态文件，AI 生成不触碰）
+ *
+ * 一、CSS 类级死人开关（与 gsap-opacity-guard 的 JS 内联侧互补）：
+ *    基态挂着 Tailwind 隐藏类（opacity-0 / scale-0）、又没有任何自带动画类的元素，
+ *    2.5s 后无条件强制显形——「等待触发器显形、触发器永远不来」的死态被物理取消。
+ *    三重排除防误伤：
+ *      - [class*="animate-"]      元素有自己的入场动画，由它自己显形
+ *      - [class*="pointer-events-none"] 交互隐藏态（关闭的面板等），是故意藏的
+ *      - [class*="hover:opacity"/"hover:scale"] 悬停显形覆盖层（含 group-hover），是交互态不是入场态
+ *      - [data-state]             Radix 类组件的状态机隐藏，有自己的开合动画
+ *
+ * 二、安全动画词汇表：所有 keyframes 的终帧/循环帧均为可见态。
+ *    页面代码用 arbitrary 语法引用：animate-[fade-up_0.6s_ease_both]、
+ *    animate-[pulse-soft_2.4s_ease-in-out_infinite] 等。
+ */
+
+[class*="opacity-0"]:not([class*="animate-"]):not([class*="pointer-events-none"]):not([class*="hover:opacity"]):not([data-state]),
+[class*="scale-0"]:not([class*="animate-"]):not([class*="pointer-events-none"]):not([class*="hover:scale"]):not([data-state]) {
+  animation: reveal-guard 0.5s ease 2.5s forwards;
+}
+@keyframes reveal-guard {
+  to { opacity: 1; transform: none; visibility: visible; }
+}
+
+/* ---- 入场（一次性，终帧可见） ---- */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---- 氛围循环（所有帧保持可见，opacity 不低于 0.5） ---- */
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.6; }
+}
+@keyframes glow-pulse {
+  0%, 100% { filter: brightness(1); }
+  50%      { filter: brightness(1.25); }
+}
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+@keyframes flow-gradient {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ---- 跑马灯（内容需复制一份实现无缝循环，容器 overflow-hidden） ---- */
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ---- 进度生长（元素自带 origin-left；终值必须写死在 DOM/样式里） ---- */
+@keyframes grow-x {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
